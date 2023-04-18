@@ -1,0 +1,12 @@
+input[type=text], input[type=number] {
+    background-color: transparent;
+    color: #e5e7eb;
+    --tw-ring-shadow: 0 0 #000 !important;
+}
+.v-text-field__prefix {
+    margin-top: 2px;
+}
+
+.v-overlay__scrim {
+    background: #000000 !important;
+}
