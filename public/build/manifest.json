@@ -1,6 +1,6 @@
 {
-  "_CustomSnackbar-c1d4435b.js": {
-    "file": "assets/CustomSnackbar-c1d4435b.js",
+  "_CustomSnackbar-ef62ff4a.js": {
+    "file": "assets/CustomSnackbar-ef62ff4a.js",
     "imports": [
       "resources/js/app.js"
     ],
@@ -23,34 +23,34 @@
     "src": "node_modules/@mdi/font/fonts/materialdesignicons-webfont.woff2"
   },
   "resources/js/Pages/Home.vue": {
-    "file": "assets/Home-4d3f4395.js",
+    "file": "assets/Home-fad20d81.js",
     "imports": [
-      "_CustomSnackbar-c1d4435b.js",
+      "_CustomSnackbar-ef62ff4a.js",
       "resources/js/app.js"
     ],
     "isDynamicEntry": true,
     "src": "resources/js/Pages/Home.vue"
   },
   "resources/js/Pages/UserManagement.css": {
-    "file": "assets/UserManagement-25035312.css",
+    "file": "assets/UserManagement-8be99083.css",
     "src": "resources/js/Pages/UserManagement.css"
   },
   "resources/js/Pages/UserManagement.vue": {
     "css": [
-      "assets/UserManagement-25035312.css"
+      "assets/UserManagement-8be99083.css"
     ],
-    "file": "assets/UserManagement-95153a0c.js",
+    "file": "assets/UserManagement-47bae7b2.js",
     "imports": [
-      "_CustomSnackbar-c1d4435b.js",
+      "_CustomSnackbar-ef62ff4a.js",
       "resources/js/app.js"
     ],
     "isDynamicEntry": true,
     "src": "resources/js/Pages/UserManagement.vue"
   },
   "resources/js/Pages/Welcome.vue": {
-    "file": "assets/Welcome-851bb1fe.js",
+    "file": "assets/Welcome-d9ccffcd.js",
     "imports": [
-      "_CustomSnackbar-c1d4435b.js",
+      "_CustomSnackbar-ef62ff4a.js",
       "resources/js/app.js"
     ],
     "isDynamicEntry": true,
@@ -71,12 +71,12 @@
       "assets/app-0810bc87.css"
     ],
     "dynamicImports": [
-      "_CustomSnackbar-c1d4435b.js",
+      "_CustomSnackbar-ef62ff4a.js",
       "resources/js/Pages/Home.vue",
       "resources/js/Pages/UserManagement.vue",
       "resources/js/Pages/Welcome.vue"
     ],
-    "file": "assets/app-20d5af6d.js",
+    "file": "assets/app-ee36906e.js",
     "isEntry": true,
     "src": "resources/js/app.js"
   }
