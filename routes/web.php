@@ -13,6 +13,7 @@ use App\Http\Controllers\User\UserCreateController;
 use App\Http\Controllers\User\UserDeleteController;
 use App\Http\Controllers\User\UserEditController;
 use App\Http\Controllers\User\UserGetController;
+use App\Http\Controllers\User\UserLoginAsController;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
 
@@ -39,7 +40,7 @@ Route::middleware('phone-verified')->group(function() {
     Route::get('/access-code/{token}', SignInController::class)->name('sign.in');
 });
 
-Route::middleware('auth')->group(function() {
+Route::middleware(['auth', 'active'])->group(function() {
     Route::get('/home', function () { return Inertia::render('Home'); })->name('home');
     Route::get('/logout', LogoutController::class)->name('logout');
     Route::post('/feeling-lucky', FeelingLuckyController::class)->name('play');
@@ -52,6 +53,7 @@ Route::middleware('auth')->group(function() {
         Route::post('/create-user', UserCreateController::class)->name('users.create');
         Route::post('/delete-user', UserDeleteController::class)->name('users.delete');
         Route::post('/edit-user', UserEditController::class)->name('users.edit');
+        Route::post('/login-as', UserLoginAsController::class)->name('users.login');
 
 
         Route::post('/get-roles', RoleController::class)->name('roles.get');

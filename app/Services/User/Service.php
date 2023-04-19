@@ -113,7 +113,9 @@ class Service
 
             if (Auth::id() === $data['id']) {
                 Auth::logout();
-                return redirect()->route('index');
+                return response()->json([
+                    'redirect_to' => '/',
+                ]);
             }
 
         }
@@ -130,5 +132,17 @@ class Service
         return response()->json([
             'message' => 'User deleted.'
         ]);
+    }
+
+    public function loginAs($data)
+    {
+        $user = User::whereId($data['id'])->first();
+        if ($user->is_active == true)
+        {
+            Auth::login($user);
+            return response()->json([
+                'redirect_to' => '/home',
+            ]);
+        }
     }
 }

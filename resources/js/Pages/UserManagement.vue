@@ -80,6 +80,15 @@
                                     icon="mdi-pencil"></v-icon>
                             <v-icon @click="deleteUser(item.id)" color="red" size="small" icon="mdi-delete"
                                     class="ml-3"></v-icon>
+                            <v-btn
+                                size="small"
+                                :color="item.is_active === 1 ? 'success'
+                                : ''" class="ml-3"
+                                :disabled="item.is_active === 0 || $page.props.auth.user.id === item.id"
+                                @click="loginAsUser(item.id)"
+                            >
+                                login
+                            </v-btn>
                         </td>
                     </tr>
                     </tbody>
@@ -119,6 +128,17 @@ export default {
         this.getUsers();
     },
     methods: {
+        loginAsUser(userId) {
+            axios.post('/admin/login-as', { id: userId })
+                .then(res => {
+                    if (res.data.redirect_to) {
+                        router.visit(res.data.redirect_to);
+                    }
+                })
+                .catch(e => {
+                    console.log(e.response);
+                })
+        },
         defineMyUserBgColor(userId) {
             return this.$page.props.auth.user.id === userId;
         },
@@ -174,6 +194,9 @@ export default {
         deleteUserOnBackend(userId) {
             axios.post('/admin/delete-user', {id: userId,})
                 .then(res => {
+                    if (res.data.redirect_to) {
+                        router.visit(res.data.redirect_to);
+                    }
                     if (res.data.message) {
                         this.showSnackbarMessage(res.data.message, 'success');
                         this.getUsers();
