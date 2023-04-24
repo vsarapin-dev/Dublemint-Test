@@ -12,8 +12,18 @@ use Illuminate\Support\Facades\DB;
 use Inertia\Inertia;
 use Symfony\Component\HttpFoundation\Response;
 
+/**
+ * Service class for managing user access tokens
+ *
+ * @package App\Services\Token
+ */
 class Service
 {
+    /**
+     * Retrieve the current user's access token
+     *
+     * @return JsonResponse
+     */
     public function getToken(): JsonResponse
     {
         return response()->json([
@@ -21,6 +31,11 @@ class Service
         ]);
     }
 
+    /**
+     * Regenerate a new access token for the current user
+     *
+     * @return JsonResponse
+     */
     public function regenerate(): JsonResponse
     {
         try {
@@ -43,6 +58,11 @@ class Service
         }
     }
 
+    /**
+     * Deactivate the current user's account and log them out
+     *
+     * @return JsonResponse|Response
+     */
     public function deactivate(): JsonResponse|Response
     {
         try {
@@ -63,6 +83,12 @@ class Service
         }
     }
 
+    /**
+     * Generate the URL for an access token
+     *
+     * @param string $personal_access_token
+     * @return string
+     */
     private function generateAccessURL($personal_access_token): string
     {
         return env('APP_URL') . "/access-code/" . $personal_access_token;

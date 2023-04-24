@@ -10,14 +10,23 @@ use Carbon\Carbon;
 use Exception;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\RedirectResponse;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use Illuminate\Support\Facades\DB;
 
+/**
+ * The Service class handles CRUD operations for User entities
+ */
 class Service
 {
     use AuthorizesRequests;
 
+    /**
+     * Retrieve all users with associated roles
+     *
+     * @return JsonResponse
+     */
     public function getAllUsers(): JsonResponse
     {
         return response()->json([
@@ -25,12 +34,18 @@ class Service
         ]);
     }
 
-    public function createUser($data): JsonResponse
+    /**
+     * Create a new user
+     *
+     * @param Request $data The user's data
+     * @return JsonResponse
+     * @throws Exception
+     */
+    public function createUser(Request $data): JsonResponse
     {
         $this->authorize('create', auth()->user());
 
-        try
-        {
+        try {
             DB::beginTransaction();
             User::create([
                 'role_id' => Role::whereName($data['role'])->first()->id,
@@ -46,9 +61,7 @@ class Service
             return response()->json([
                 'message' => 'User created successfully.'
             ]);
-        }
-        catch (Exception $e)
-        {
+        } catch (Exception $e) {
             DB::rollBack();
 
             return response()->json([
@@ -57,14 +70,20 @@ class Service
         }
     }
 
-    public function editUser($data): JsonResponse|RedirectResponse
+    /**
+     * Edit an existing user
+     *
+     * @param Request $data The user's data
+     * @return JsonResponse|RedirectResponse
+     * @throws Exception
+     */
+    public function editUser(Request $data): JsonResponse|RedirectResponse
     {
         $this->authorize('update', auth()->user());
 
         $user = User::whereId($data['id'])->first();
 
-        try
-        {
+        try {
             DB::beginTransaction();
 
             $user->role_id = Role::whereName($data['role'])->first()->id;
@@ -78,8 +97,7 @@ class Service
 
             if (Auth::id() === $data['id'] &&
                 ($data['is_active'] == false ||
-                 $user->hasRole('admin') === false))
-            {
+                    $user->hasRole('admin') === false)) {
                 return response()->json([
                     'redirect_to' => '/home',
                 ]);
@@ -88,9 +106,7 @@ class Service
             return response()->json([
                 'message' => 'User updated successfully.',
             ]);
-        }
-        catch (Exception $e)
-        {
+        } catch (Exception $e) {
             DB::rollBack();
 
             return response()->json([
@@ -99,12 +115,18 @@ class Service
         }
     }
 
-    public function deleteUser($data)
+    /**
+     * Delete an existing user
+     *
+     * @param Request $data The user's data
+     * @return JsonResponse
+     * @throws Exception
+     */
+    public function deleteUser(Request $data): JsonResponse
     {
         $this->authorize('delete', auth()->user());
 
-        try
-        {
+        try {
             DB::beginTransaction();
 
             User::whereId($data['id'])->delete();
@@ -118,9 +140,7 @@ class Service
                 ]);
             }
 
-        }
-        catch (Exception $e)
-        {
+        } catch (Exception $e) {
             DB::rollBack();
 
             return response()->json([
@@ -134,11 +154,16 @@ class Service
         ]);
     }
 
-    public function loginAs($data)
+    /**
+     * Log in as another user
+     *
+     * @param Request $data The user's data
+     * @return JsonResponse
+     */
+    public function loginAs(Request $data): JsonResponse
     {
         $user = User::whereId($data['id'])->first();
-        if ($user->is_active == true)
-        {
+        if ($user->is_active == true) {
             Auth::login($user);
             return response()->json([
                 'redirect_to' => '/home',

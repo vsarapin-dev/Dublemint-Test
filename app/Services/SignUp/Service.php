@@ -11,11 +11,23 @@ use Exception;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Facades\DB;
 
+/**
+ * Service class for sign up users
+ */
 class Service
 {
+    /**
+     * @var mixed $data Data needed for user creation
+     */
     private mixed $data;
-    private ?int $userId;
 
+
+    /**
+     * Creates a new user with the given data
+     *
+     * @param mixed $data Data needed for user creation
+     * @return JsonResponse Response JSON containing either the access code or an error message
+     */
     public function signUp($data): JsonResponse
     {
         $this->data = $data;
@@ -33,6 +45,11 @@ class Service
         return $response;
     }
 
+    /**
+     * Attempts to create a new user and returns the response JSON
+     *
+     * @return JsonResponse Response JSON containing either the access code or an error message
+     */
     private function createUser(): JsonResponse
     {
         try {
@@ -55,16 +72,32 @@ class Service
         }
     }
 
+    /**
+     * Checks if the given phone number already exists in the database
+     *
+     * @return bool True if phone number exists, false otherwise
+     */
     private function isPhoneExists(): bool
     {
         return User::wherePhoneNumber($this->data['phone_number'])->exists();
     }
 
+    /**
+     * Checks if the given username already exists in the database
+     *
+     * @return bool True if username exists, false otherwise
+     */
     private function isUsernameExists(): bool
     {
         return User::whereName($this->data['user_name'])->exists();
     }
 
+    /**
+     * Generates the access URL for the newly created user
+     *
+     * @param string $personal_access_token The user's personal access token
+     * @return string The access URL
+     */
     private function generateAccessURL($personal_access_token): string
     {
         return env('APP_URL') . "/access-code/" . $personal_access_token;
